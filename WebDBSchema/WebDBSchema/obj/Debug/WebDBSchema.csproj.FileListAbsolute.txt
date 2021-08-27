@@ -76,7 +76,6 @@ C:\Abel\GitHub\Inventory20\WebDBSchema\WebDBSchema\bin\System.Web.WebPages.Razor
 C:\Abel\GitHub\Inventory20\WebDBSchema\WebDBSchema\bin\Newtonsoft.Json.xml
 C:\Abel\GitHub\Inventory20\WebDBSchema\WebDBSchema\bin\Antlr3.Runtime.pdb
 C:\Abel\GitHub\Inventory20\WebDBSchema\WebDBSchema\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Abel\GitHub\Inventory20\WebDBSchema\WebDBSchema\obj\Debug\WebDBSchema.csprojAssemblyReference.cache
 C:\Abel\GitHub\Inventory20\WebDBSchema\WebDBSchema\obj\Debug\WebDBSchema.csproj.CoreCompileInputs.cache
 C:\Abel\GitHub\Inventory20\WebDBSchema\WebDBSchema\obj\Debug\WebDBSchema.csproj.CopyComplete
 C:\Abel\GitHub\Inventory20\WebDBSchema\WebDBSchema\obj\Debug\WebDBSchema.dll

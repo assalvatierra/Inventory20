@@ -1,0 +1,47 @@
+﻿@page "/StoreAdd"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+<h3>Add</h3>
+<p>Id : NEW  </p>
+
+@if (currentStore == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p>
+        <input type="text" @bind="@currentStore.StoreName" />
+    </p>
+    <p>
+        <button class="btn btn-primary" @onclick="@SubmitButtonClicked">Submit</button>
+    </p>
+
+
+}
+
+
+@code {
+    private InvStore currentStore;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        currentStore = new InvStore();
+
+    }
+
+    protected async Task SubmitButtonClicked()
+    {
+        HttpResponseMessage res;
+        res = await Http.PostAsJsonAsync("api/InvStores/", currentStore);
+
+        Console.WriteLine("Submit Code:" + res.StatusCode);
+
+        if (res.IsSuccessStatusCode)
+            NavHelper.NavigateTo("/StoreList");
+
+        return;
+    }
+
+}

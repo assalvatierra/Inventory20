@@ -1,0 +1,60 @@
+﻿@page "/StoreList"
+
+
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize]
+
+@inject HttpClient Http
+
+
+<h3>InvStores</h3>
+
+@if (stores == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Store</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in stores)
+            {
+                <tr>
+                    <td>@forecast.Id</td>
+                    <td>@forecast.StoreName</td>
+                    <td><a href="/StoreEdit/@forecast.Id">Edit</a></td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<p><a href="/StoreAdd">Add New Store</a></p>
+
+@code {
+    private InvStore[] stores;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        //stores = await Http.GetFromJsonAsync<InvStore[]>("api/InvStores");
+
+        try
+        {
+            stores = await Http.GetFromJsonAsync<InvStore[]>("api/InvStores");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+}

@@ -1,0 +1,62 @@
+﻿@page "/StoreEdit/{id:int}"
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@attribute [Authorize]
+
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+
+
+<h3>Edit</h3>
+<p>Id : @id  </p>
+
+@if (currentStore == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p>
+        <input type="text" @bind="@currentStore.StoreName" />
+    </p>
+    <p>
+        <button class="btn btn-primary" @onclick="@SubmitButtonClicked">Submit</button>
+    </p>
+
+
+}
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private InvStore currentStore;
+    public string storename;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            currentStore = await Http.GetFromJsonAsync<InvStore>("api/InvStores/" + this.id);
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+
+    protected async Task SubmitButtonClicked()
+    {
+        HttpResponseMessage res;
+        res = await Http.PutAsJsonAsync("api/InvStores/" + this.id, currentStore);
+
+        Console.WriteLine("Submit Code:" + res.StatusCode);
+
+        if (res.IsSuccessStatusCode)
+            NavHelper.NavigateTo("/StoreList");
+
+        return;
+    }
+}
