@@ -198,7 +198,7 @@
       "mscorlib.dll": "sha256-Szv3xvo7lpk3sOSYaxNzyNv5mvbj924w1WFbDXPnFzw=",
       "netstandard.dll": "sha256-5RchH5B6Yr3NhmDDCRemdr7RcRf4uoztuBOHhAnfYFI=",
       "System.Private.CoreLib.dll": "sha256-pKBnu1J3jSDAahjhvnU6QlCWaqhILfPfTxvPHPrj754=",
-      "WebDBSchema.dll": "sha256-rINzv1eu+cRymtoXppv\/vEvOHOrLtXuX1IBRGNUXAIg=",
+      "WebDBSchema.dll": "sha256-ef6TpFRWsNasN0hra4lRWUJCnN4p6Anm85eXCv11nQE=",
       "WebInv.Shared.dll": "sha256-PpCeZXAwrsRZ+9IjMJu5a0Lxm0atJPFsWuoSp07irkw=",
       "System.Web.Optimization.dll": "sha256-MhspSGpcMZVXRVKtBduiGZVy2zo7o5Ur0e52jMP4zt0=",
       "System.Web.Mvc.dll": "sha256-yy2uPqcQ96FILYWTaVWgc0WsqQMnec6MxcpLqmIEUvI=",
@@ -208,13 +208,13 @@
       "System.Web.WebPages.Razor.dll": "sha256-qqDcOQ3Qaz320ZWG9bFCqv9JphGfcrDR0VRBcYdCIqI=",
       "System.Web.Razor.dll": "sha256-aR\/\/utEJACESdje5Nm6mVKw1Qec8SwMp0Hum7tNICb4=",
       "System.Web.WebPages.Deployment.dll": "sha256-8wg3pnn58XCqNbrrLFgGyC6FyegIRW6n6a6Hu\/xej6o=",
-      "WebInv.Client.dll": "sha256-rqaOGhVxqK89MihKHgK\/9M5iIa8tHborcgVX70fKm4M="
+      "WebInv.Client.dll": "sha256-3nnDwDm7HfYbmVHENY0OrKN5JNYh5ir3xjBZcBBHgaE="
     },
     "lazyAssembly": null,
     "pdb": {
-      "WebDBSchema.pdb": "sha256-za3MkiMqR4Fetae6GAM6G0Yc3AIvYLy40SRdliQoYUk=",
+      "WebDBSchema.pdb": "sha256-eMqLIKyePBLGTDlLlaOWUF4bSTFbtHNym4fZdWdG+qk=",
       "WebInv.Shared.pdb": "sha256-vfuyJJ\/2zAdTrNw39Wu0XcZsCSoW3crsHQY0IQ54cTQ=",
-      "WebInv.Client.pdb": "sha256-gM9ZnbgUTqEC+cah1cmZXRvhy02+WZZoPz67NG0tSSg="
+      "WebInv.Client.pdb": "sha256-TU1bwk6\/aspQBkzIA4l35k8mS6+3lewaM50zmoznVPg="
     },
     "runtime": {
       "dotnet.timezones.blat": "sha256-6gpSboPIzpxslj3G69YAnbCNj40a6VNSTGz1e+LH00M=",

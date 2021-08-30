@@ -67,9 +67,16 @@ namespace WebInv.Server
 
             app.UseRouting();
 
-            app.UseIdentityServer();
-            app.UseAuthentication();
-            app.UseAuthorization();
+            //app.UseIdentityServer();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
+
+            if (env.EnvironmentName != "TEST123")
+            {
+                app.UseIdentityServer();
+                app.UseAuthentication();
+                app.UseAuthorization();
+            }
 
             app.UseEndpoints(endpoints =>
             {
