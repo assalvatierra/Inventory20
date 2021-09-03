@@ -1,0 +1,94 @@
+﻿@page "/Items/Create"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+
+<h3>Create Item</h3>
+<p>
+    <div class=""></div>
+    <a href="/Items">
+        <i class="bi bi-arrow-left-circle"></i>
+        Back to List
+    </a>
+</p>
+<hr />
+<div class="col-md-5">
+    <EditForm Model="@invItem" OnSubmit=@ValidFormSubmitted>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3" hidden>
+            <label> Id </label>
+            <InputNumber class="form-control" @bind-Value=invItem.Id id="Id" />
+        </div>
+
+        <div class="mb-3">
+            <label> Description </label>
+            <InputText class="form-control" @bind-Value=invItem.Description id="Description" />
+        </div>
+
+        <div class="mb-3">
+            <label > Remarks </label>
+            <InputText class="form-control" @bind-Value=invItem.Remarks id="Remarks" />
+        </div>
+
+        <div class="mb-3">
+            <label> Unit </label>
+                <InputSelect class="form-control" @bind-Value=invItem.InvUomId id="Uom">
+                    @if (invUom != null)
+                    {
+                        @foreach (var unitOfMeasure in invUom)
+                        {
+                            <option value=@unitOfMeasure.Id >@unitOfMeasure.uom</option>
+                        }
+                    }
+                    else
+                    {
+                        <option id="0">N/A</option>
+                    }
+
+                </InputSelect>
+        </div>
+        <div class="mb-3">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+    </EditForm>
+</div>
+
+
+@code {
+    InvItem invItem = new InvItem();
+    InvUom[] invUom ;
+
+    //On page Initialize
+    protected override async Task OnInitializedAsync()
+    {
+        invUom = await GetInvUom();
+    }
+
+    //On Submit Form
+    private async Task ValidFormSubmitted(EditContext editContext)
+    {
+        //Post data to server
+        var res = await Http.PostAsJsonAsync("api/InvItems", invItem);
+
+        //response & redirect to list
+        if (res.IsSuccessStatusCode)
+        {
+            NavHelper.NavigateTo("/Items");
+        }
+
+        return;
+    }
+
+    //Get List if Uoms for SelectList dropdown
+    private async Task<InvUom[]> GetInvUom()
+    {
+        var uoms = await Http.GetFromJsonAsync<InvUom[]>("api/InvUoms");
+        Console.WriteLine(uoms);
+        return uoms;
+    }
+
+
+
+}
+

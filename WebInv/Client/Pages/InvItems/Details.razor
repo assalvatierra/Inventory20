@@ -1,0 +1,61 @@
+﻿@page "/Items/Details/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+<h3>Details</h3>
+
+<p>
+    <div class=""></div>
+    <a href="/Items">
+        <i class="bi bi-arrow-left-circle"></i>
+        Back to List
+    </a>
+</p>
+
+@if (invItem == null)
+{
+    <div class="spinner-border" role="status">  </div>
+    <span class="visually-hidden">Loading...</span>
+}
+else
+{
+
+    <div>   
+        <div>
+            <p>
+                <label class="text-muted">Id : @invItem.Id</label>
+            </p>
+        </div>
+        <div>
+            <label class="text-muted">Description</label>
+            <h4> @invItem.Description </h4>
+        </div>
+        <div>
+            <label class="text-muted"> Remarks </label>
+            <p> @invItem.Remarks </p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private InvItem invItem = new InvItem();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+             invItem = await Http.GetFromJsonAsync<InvItem>("api/InvItems/" +  this.id);
+            Console.WriteLine(invItem.Description);
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+
+
+
+}

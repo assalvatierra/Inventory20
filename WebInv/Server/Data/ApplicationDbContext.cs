@@ -19,5 +19,9 @@ namespace WebInv.Server.Data
         {
         }
         public DbSet<WebDBSchema.Models.InvStore> InvStores { get; set; }
+        public DbSet<WebDBSchema.Models.InvItem> InvItems { get; set; }
+        public DbSet<WebDBSchema.Models.InvSupplier> InvSuppliers { get; set; }
+        public DbSet<WebDBSchema.Models.InvClassification> InvClassifications { get; set; }
+        public DbSet<WebDBSchema.Models.InvUom> InvUoms { get; set; }
     }
 }
