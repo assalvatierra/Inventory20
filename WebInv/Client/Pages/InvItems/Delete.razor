@@ -60,7 +60,7 @@
         var res = await Http.DeleteAsync($"api/InvItems/{id}");
 
         if (res.IsSuccessStatusCode) {
-            NavHelper.NavigateTo("/Items")
+            NavHelper.NavigateTo("/Items");
         }
     }
 

@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebInv.Server", "WebInv\Ser
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebInv.Server.Test", "WebInv.Server.Test\WebInv.Server.Test.csproj", "{E5075C01-A747-43C7-A8B4-937E9433DDFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{BEB96FD6-4F41-44FC-956B-0FD7A7C80E10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProject1", "TestProject1\TestProject1.csproj", "{BEB96FD6-4F41-44FC-956B-0FD7A7C80E10}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

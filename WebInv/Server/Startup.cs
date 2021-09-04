@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using System.Text.Json.Serialization;
 using WebInv.Server.Data;
 using WebInv.Server.Models;
 
@@ -40,6 +41,7 @@ namespace WebInv.Server
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
+
 
             services.AddControllersWithViews();
             services.AddRazorPages();

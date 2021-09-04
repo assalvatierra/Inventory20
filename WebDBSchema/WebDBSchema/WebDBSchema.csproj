@@ -214,6 +214,7 @@
       <LastGenOutput>InvDB.cs</LastGenOutput>
       <DependentUpon>InvDB.edmx</DependentUpon>
     </Content>
+    <Content Include="Models\Initial.sql" />
     <Content Include="Models\Query1.sql" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
