@@ -81,3 +81,11 @@ _[Ss]cripts
 ######################
 TestProject1/bin/Debug/*
 TestProject1/obj/Debug/*
+WebInv/Client/bin/Debug/*
+WebInv/Client/obj/Debug/*
+WebInv/Server/bin/Debug/*
+WebInv/Server/obj/Debug/*
+WebInv/Shared/bin/Debug/*
+WebInv/Shared/obj/Debug/*
+WebInv.Server.Test/bin/Debug/*
+WebInv.Server.Test/obj/Debug/*
