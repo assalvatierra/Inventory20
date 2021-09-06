@@ -1,0 +1,62 @@
+﻿@page "/Stores/Create"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+
+<h3>Create Item</h3>
+<p>
+    <div class=""></div>
+    <a href="/Stores">
+        <i class="bi bi-arrow-left-circle"></i>
+        Back to List
+    </a>
+</p>
+<hr />
+<div class="col-md-5">
+    <EditForm Model="@invStore" OnSubmit=@ValidFormSubmitted>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3" hidden>
+            <label> Id </label>
+            <InputNumber class="form-control" @bind-Value=invStore.Id id="Id" />
+        </div>
+
+        <div class="mb-3">
+            <label> Description </label>
+            <InputText class="form-control" @bind-Value=invStore.StoreName id="Description" />
+        </div>
+
+        <div class="mb-3">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+    </EditForm>
+</div>
+
+
+@code {
+    InvStore invStore = new InvStore();
+
+    //On page Initialize
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    //On Submit Form
+    private async Task ValidFormSubmitted(EditContext editContext)
+    {
+        //Post data to server
+        var res = await Http.PostAsJsonAsync("api/InvStores", invStore);
+
+        //response & redirect to list
+        if (res.IsSuccessStatusCode)
+        {
+            NavHelper.NavigateTo("/Stores");
+        }
+
+        return;
+    }
+
+
+}
+

@@ -29,6 +29,7 @@ namespace WebInv.Server.Controllers
             {
 
                 return await _context.InvItems
+                    .Include(i=>i.InvUom)
                     .ToListAsync();
             }
             catch(Exception ex)
@@ -41,7 +42,9 @@ namespace WebInv.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<InvItem>> GetInvItem(int id)
         {
-            var invItem = await _context.InvItems.FindAsync(id);
+            var invItem = await _context.InvItems.Include(i=>i.InvUom)
+                                .Where(i=>i.Id == id)
+                                .FirstAsync();
 
             if (invItem == null)
             {

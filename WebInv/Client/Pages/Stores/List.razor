@@ -1,4 +1,4 @@
-﻿@page "/StoreList"
+﻿@page "/Stores"
 @attribute [Authorize]
 @inject HttpClient Http
 
@@ -8,28 +8,32 @@
 @if (stores == null)
 {
     <div class="spinner-border" role="status">
-        @*<span class="visually-hidden">Loading...</span>*@
     </div>
+    <span class="visually-hidden">Loading...</span>
 }
 else
 {
-    <p><a href="/StoreAdd">Add New Store</a></p>
+    <p><a href="/StoreAdd" class="btn btn-primary">Add New Store</a></p>
 
     <table class="table">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Store</th>
-                <th>Summary</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in stores)
+            @foreach (var store in stores)
             {
                 <tr>
-                    <td>@forecast.Id</td>
-                    <td>@forecast.StoreName</td>
-                    <td><a href="/StoreEdit/@forecast.Id">Edit</a></td>
+                    <td>@store.Id</td>
+                    <td>@store.StoreName</td>
+                    <td>
+                        <a href="/Stores/Edit/@store.Id" class="btn btn-light">Edit</a>
+                        <a href="/Stores/Details/@store.Id" class="btn btn-light">Details</a>
+                        <a href="/Stores/Delete/@store.Id" class="btn btn-light">Delete</a>
+                    </td>
 
                 </tr>
             }

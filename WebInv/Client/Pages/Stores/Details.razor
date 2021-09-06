@@ -1,0 +1,58 @@
+﻿@page "/Stores/Details/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+<h3>Store Details</h3>
+
+<p>
+    <a href="/Stores/Edit/@id" class="btn btn-light">Edit</a>
+    <a href="/Stores">
+        <i class="bi bi-arrow-left-circle"></i>
+        Back to List
+    </a>
+</p>
+
+@if (invStore == null)
+{
+    <div class="spinner-border" role="status">  </div>
+    <span class="visually-hidden">Loading...</span>
+}
+else
+{
+
+    <div>   
+        <div>
+            <p>
+                <label class="text-muted">Id : @invStore.Id</label>
+            </p>
+        </div>
+        <div>
+            <p>
+                <label class="text-muted">Store name</label>
+                <h4> @invStore.StoreName </h4>
+            </p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private InvStore invStore = new InvStore();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            invStore = await Http.GetFromJsonAsync<InvStore>("api/InvStores/" +  this.id);
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+
+    }
+
+
+
+}

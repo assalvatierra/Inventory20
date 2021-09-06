@@ -1,4 +1,4 @@
-﻿@page "/StoreEdit/{id:int}"
+﻿@page "/Stores/{id:int}"
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @attribute [Authorize]
@@ -7,7 +7,7 @@
 @inject NavigationManager NavHelper
 
 
-<h3>Edit</h3>
+<h3>Edit Store</h3>
 <p>Id : @id  </p>
 
 @if (currentStore == null)
@@ -15,15 +15,21 @@
     <p><em>Loading...</em></p>
 }
 else
-{
-    <p>
-        <input type="text" @bind="@currentStore.StoreName" />
-    </p>
-    <p>
-        <button class="btn btn-primary" @onclick="@SubmitButtonClicked">Submit</button>
-    </p>
+    {
+    <EditForm Model="@currentStore" OnSubmit=@ValidFormSubmitted>
 
+        <div class="mb-3">
+            <label> StoreName </label>
+             <InputText @bind="@currentStore.StoreName" id="StoreName"/>
+        </div>
 
+        <div class="mb-3"> 
+            <p>
+                <button class="btn btn-primary">Submit</button>
+            </p>
+        </div>
+
+    </EditForm>
 }
 
 
@@ -47,7 +53,7 @@ else
     }
 
 
-    protected async Task SubmitButtonClicked()
+    private async Task ValidFormSubmitted(EditContext editContext)
     {
         HttpResponseMessage res;
         res = await Http.PutAsJsonAsync("api/InvStores/" + this.id, currentStore);

@@ -26,12 +26,26 @@ else
             </p>
         </div>
         <div>
-            <label class="text-muted">Description</label>
-            <h4> @invItem.Description </h4>
+            <p>
+                <label class="text-muted">Description</label>
+                <h4> @invItem.Description </h4>
+            </p>
         </div>
         <div>
-            <label class="text-muted"> Remarks </label>
-            <p> @invItem.Remarks </p>
+            <p>
+                <label class="text-muted"> Unit of Measure  </label><br />
+
+                @if (invItem.InvUom != null)
+                {
+                    <span> @invItem.InvUom.uom </span>
+                }
+            </p>
+        </div>
+        <div>
+            <p>
+                <label class="text-muted"> Remarks </label><br />
+                <span> @invItem.Remarks </span>
+            </p>
         </div>
     </div>
 }

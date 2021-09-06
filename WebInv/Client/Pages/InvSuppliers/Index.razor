@@ -1,9 +1,9 @@
-﻿@page "/Items"
+﻿@page "/Suppliers"
 @inject HttpClient Http
 
-<h3>Items</h3>
+<h3>Suppliers</h3>
 <p>
-    <a href="/Items/Create" class="btn btn-primary"> Add Item </a>
+    <a href="/Items/Create" class="btn btn-primary"> Add Supplier </a>
 </p>
     <table class="table">
         <thead>
@@ -22,34 +22,34 @@
         </thead>
         <tbody>
 
-            @if (invItems == null)
+            @if (invSuppliers == null)
             {
                 <tr>
                     <td colspan="3">
                         <div class="spinner-border" role="status">
-                            @*<span class="visually-hidden">Loading...</span>*@
                         </div>
+                        <span class="visually-hidden">Loading...</span>
                     </td>
                 </tr>
             }
             else
             {
-                @foreach (var item in invItems)
+                @foreach (var item in invSuppliers)
                 {
                     <tr @key="item.Id">
                         <td>
                             @item.Id
                         </td>
                         <td>
-                            @item.Description
+                            @item.Name
                         </td>
                         <td>
-                            @item.InvUom.uom
+                            @item.Remarks
                         </td>
                         <td>
-                            <a href="/Items/Details/@item.Id" class="btn btn-light btn-sm"> Details </a>
-                            <a href="/Items/Edit/@item.Id" class="btn btn-light btn-sm"> Edit </a>
-                            <a href="/Items/Delete/@item.Id" class="btn btn-light btn-sm"> Delete </a>
+                            <a href="/Suppliers/Details/@item.Id" class="btn btn-light btn-sm"> Details </a>
+                            <a href="/Suppliers/Edit/@item.Id" class="btn btn-light btn-sm"> Edit </a>
+                            <a href="/Suppliers/Delete/@item.Id" class="btn btn-light btn-sm"> Delete </a>
                         </td>
                     </tr>
                 }
@@ -60,14 +60,14 @@
 
 @code {
 
-    private InvItem[] invItems;
+    private InvSupplier[] invSuppliers;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             //get item details
-            invItems = await Http.GetFromJsonAsync<InvItem[]>("api/InvItems");
+            invSuppliers = await Http.GetFromJsonAsync<InvSupplier[]>("api/InvSuppliers");
 
         }
         catch (AccessTokenNotAvailableException exception)
