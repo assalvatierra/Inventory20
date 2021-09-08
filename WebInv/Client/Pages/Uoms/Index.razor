@@ -1,0 +1,74 @@
+﻿@page "/Uoms"
+@attribute [Authorize]
+@inject HttpClient Http
+
+<h3>Unit of Measure</h3>
+<p>
+    <a href="/Uoms/Create" class="btn btn-primary"> Add Uom </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Uom
+            </th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (invUoms == null)
+        {
+            <tr>
+                <td colspan="3">
+                    <div class="spinner-border" role="status">
+                    </div>
+                    <span class="visually-hidden">Loading...</span>
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in invUoms)
+            {
+                <tr @key="item.Id">
+                    <td>
+                        @item.Id
+                    </td>
+                    <td>
+                        @item.uom
+                    </td>
+                    <td>
+                        <a href="/Uoms/Details/@item.Id" class="btn btn-light btn-sm"> Details </a>
+                        <a href="/Uoms/Edit/@item.Id" class="btn btn-light btn-sm"> Edit </a>
+                        <a href="/Uoms/Delete/@item.Id" class="btn btn-light btn-sm"> Delete </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+@code {
+
+    private InvUom[] invUoms;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            //get item details
+            invUoms = await Http.GetFromJsonAsync<InvUom[]>("api/InvUoms");
+
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+
+    }
+}

@@ -1,0 +1,65 @@
+﻿@page "/Suppliers/Details/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+<h3>Details</h3>
+
+<p>
+    <div class=""></div>
+    <a href="/Suppliers">
+        <span class="oi oi-arrow-left" title="arrow-left" aria-hidden="true"></span>
+        Back to List
+    </a>
+</p>
+
+@if (invSupplier == null)
+{
+    <div class="spinner-border" role="status">  </div>
+    <span class="visually-hidden">Loading...</span>
+}
+else
+{
+
+    <div>
+        <div>
+            <p>
+                <label class="text-muted">Id : @invSupplier.Id</label>
+            </p>
+        </div>
+        <div>
+            <p>
+                <label class="text-muted">Description</label>
+                <h4> @invSupplier.Name </h4>
+            </p>
+        </div>
+        <div>
+            <p>
+                <label class="text-muted"> Remarks </label><br />
+                <span> @invSupplier.Remarks </span>
+            </p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private InvSupplier invSupplier = new InvSupplier();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            invSupplier = await Http.GetFromJsonAsync<InvSupplier>("api/InvSuppliers/" + this.id);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+
+
+
+}

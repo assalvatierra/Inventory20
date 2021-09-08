@@ -1,0 +1,59 @@
+﻿@page "/Uoms/Details/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+<h3>Details</h3>
+
+<p>
+    <div class=""></div>
+    <a href="/Uoms">
+        <span class="oi oi-arrow-left" title="arrow-left" aria-hidden="true"></span>
+        Back to List
+    </a>
+</p>
+
+@if (invUom == null)
+{
+    <div class="spinner-border" role="status">  </div>
+    <span class="visually-hidden">Loading...</span>
+}
+else
+{
+
+    <div>
+        <div>
+            <p>
+                <label class="text-muted">Id : @invUom.Id</label>
+            </p>
+        </div>
+        <div>
+            <p>
+                <label class="text-muted">Description</label>
+                <h4> @invUom.uom </h4>
+            </p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private InvUom invUom = new InvUom();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            invUom = await Http.GetFromJsonAsync<InvUom>("api/InvUoms/" + this.id);
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+
+
+
+}

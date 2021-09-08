@@ -1,0 +1,80 @@
+﻿@page "/Suppliers"
+@attribute [Authorize]
+@inject HttpClient Http
+
+<h3>Suppliers</h3>
+<p>
+    <a href="/Suppliers/Create" class="btn btn-primary"> Add Supplier </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Unit
+            </th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (invSuppliers == null)
+        {
+            <tr>
+                <td colspan="3">
+                    <div class="spinner-border" role="status">
+                    </div>
+                    <span class="visually-hidden">Loading...</span>
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in invSuppliers)
+            {
+                <tr @key="item.Id">
+                    <td>
+                        @item.Id
+                    </td>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.Remarks
+                    </td>
+                    <td>
+                        <a href="/Suppliers/Details/@item.Id" class="btn btn-light btn-sm"> Details </a>
+                        <a href="/Suppliers/Edit/@item.Id" class="btn btn-light btn-sm"> Edit </a>
+                        <a href="/Suppliers/Delete/@item.Id" class="btn btn-light btn-sm"> Delete </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+@code {
+
+    private InvSupplier[] invSuppliers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            //get item details
+            invSuppliers = await Http.GetFromJsonAsync<InvSupplier[]>("api/InvSuppliers");
+
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+
+    }
+}

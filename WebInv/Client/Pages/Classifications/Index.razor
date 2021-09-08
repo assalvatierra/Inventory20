@@ -1,0 +1,75 @@
+﻿@page "/Classifications"
+@attribute [Authorize]
+@inject HttpClient Http
+
+<h3>Classifications</h3>
+<p>
+    <a href="/Classifications/Create" class="btn btn-primary"> Add Item </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Classifications
+            </th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (invClasssifications == null)
+        {
+            <tr>
+                <td colspan="3">
+                    <div class="spinner-border" role="status">
+                       
+                    </div>
+                    <label> Loading... </label>
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in invClasssifications)
+            {
+                <tr @key="item.Id">
+                    <td>
+                        @item.Id
+                    </td>
+                    <td>
+                        @item.Classification
+                    </td>
+                    <td>
+                        <a href="/Classifications/Details/@item.Id" class="btn btn-light btn-sm"> Details </a>
+                        <a href="/Classifications/Edit/@item.Id" class="btn btn-light btn-sm"> Edit </a>
+                        <a href="/Classifications/Delete/@item.Id" class="btn btn-light btn-sm"> Delete </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+@code {
+
+    private InvClassification[] invClasssifications;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            //get item details
+            invClasssifications = await Http.GetFromJsonAsync<InvClassification[]>("api/InvClassifications");
+
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+
+    }
+}

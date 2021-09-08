@@ -1,0 +1,78 @@
+﻿@page "/Classifications/Edit/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+
+<h3>Edit Classification</h3>
+<p>
+    <div class=""></div>
+    <a href="/Classifications">
+        <span class="oi oi-arrow-left" title="arrow-left" aria-hidden="true"></span>
+        Back to List
+    </a>
+</p>
+<hr />
+<div class="col-md-5">
+    <EditForm Model="@invClassification" OnSubmit=@ValidFormSubmitted>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="mb-3">
+            <p class="text-warning"> @validationMgs </p>
+        </div>
+        <div class="mb-3" hidden>
+            <label> Id </label>
+            <InputNumber class="form-control" @bind-Value=invClassification.Id id="Id" />
+        </div>
+        <div class="mb-3">
+            <label> Description </label>
+            <InputText class="form-control" @bind-Value=invClassification.Classification id="Description" />
+        </div>
+
+        <div class="mb-3">
+            <input type="submit" value="Save Changes" class="btn btn-primary" />
+        </div>
+    </EditForm>
+</div>
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    InvClassification invClassification = new InvClassification();
+
+    string validationMgs;
+
+    //On page Initialize
+    protected override async Task OnInitializedAsync()
+    {
+        await GetItem();
+    }
+
+    //On Submit Form
+    private async Task ValidFormSubmitted(EditContext editContext)
+    {
+        //Post data to server
+        var res = await Http.PutAsJsonAsync($"api/InvClassifications/{id}", invClassification);
+
+        //response & redirect to list
+        if (res.IsSuccessStatusCode)
+        {
+            NavHelper.NavigateTo("/Classifications");
+        }
+        else
+        {
+            validationMgs = "Unable to save changes.";
+        }
+
+        return;
+    }
+
+    //Get item details
+    private async Task GetItem()
+    {
+        invClassification = await Http.GetFromJsonAsync<InvClassification>($"api/InvClassifications/{id}");
+
+    }
+
+}
+

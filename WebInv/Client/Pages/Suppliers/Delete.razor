@@ -1,0 +1,79 @@
+﻿@page "/Suppliers/Delete/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+
+<h3>Delete Supplier</h3>
+<p>
+    <div class=""></div>
+    <a href="/Suppliers">
+        <span class="oi oi-arrow-left" title="arrow-left" aria-hidden="true"></span>
+        Back to List
+    </a>
+</p>
+<hr />
+<p>Do you want to delete this item?</p>
+<div class="col-md-5">
+    <div class="mb-3">
+        <p class="text-warning"> @ValidationMsg </p>
+    </div>
+    <div class="mb-3">
+        <div class="mb-3">
+            <label> Id: </label>
+            <span> @invSupplier.Id </span>
+        </div>
+        <div class="mb-3">
+            <label> Description: </label>
+            <span> @invSupplier.Name </span>
+        </div>
+        <div class="mb-3">
+            <label> Remarks: </label>
+            <span> @invSupplier.Remarks </span>
+        </div>
+    </div>
+    <div class="mb-3">
+        <a href="/Suppliers" class="btn btn-light"> Cancel </a>
+        <input type="submit" value="Delete" @onclick=OnDeleteSubmit class="btn btn-danger" />
+    </div>
+
+</div>
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    InvSupplier invSupplier = new InvSupplier();
+
+    string ValidationMsg;
+
+    //On page Initialize
+    protected override async Task OnInitializedAsync()
+    {
+        await GetInvItem();
+    }
+
+
+    //Get item details
+    private async Task GetInvItem()
+    {
+        invSupplier = await Http.GetFromJsonAsync<InvSupplier>($"api/InvSuppliers/{id}");
+    }
+
+
+    private async Task OnDeleteSubmit()
+    {
+        var res = await Http.DeleteAsync($"api/InvSuppliers/{id}");
+
+        if (res.IsSuccessStatusCode)
+        {
+            NavHelper.NavigateTo("/Suppliers");
+        }
+        else
+        {
+            ValidationMsg = "Unable to delete supplier";
+        }
+    }
+
+
+}
+

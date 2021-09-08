@@ -1,0 +1,91 @@
+﻿@page "/Uoms/Create"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+
+<h3>Create Unit of Measure</h3>
+<p>
+    <div class=""></div>
+    <a href="/Uoms">
+        <span class="oi oi-arrow-left" title="arrow-left" aria-hidden="true"></span>
+        Back to List
+    </a>
+</p>
+<hr />
+<div class="col-md-5">
+    <EditForm Model="@invUom" OnSubmit=@OnSubmit>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <p class="text-warning"> @validationMsg </p>
+        </div>
+        <div class="mb-3" hidden>
+            <label> Id </label>
+            <InputNumber class="form-control" @bind-Value=invUom.Id id="Id" />
+        </div>
+
+        <div class="mb-3">
+            <label> Name </label>
+            <InputText class="form-control" @bind-Value=invUom.uom id="Uom" ParsingErrorMessage="The field has an incorrect value." />
+        </div>
+
+
+        <div class="mb-3">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+    </EditForm>
+</div>
+
+
+@code {
+    InvUom invUom = new InvUom();
+    string validationMsg;
+
+
+    //On page Initialize
+    protected override void OnInitialized()
+    {
+        //Initialize List Data here
+        return;
+    }
+
+
+    //On Submit Form
+    private async Task OnSubmit(EditContext editContext)
+    {
+
+        //Form Validation
+        bool formIsValid = editContext.Validate();
+
+        validationMsg = formIsValid
+                          ? "Success - form was valid"
+                          : "Failure - form was invalid";
+
+        if (formIsValid)
+        {
+            //Post data to server
+            var res = await Http.PostAsJsonAsync("api/InvUoms", invUom);
+
+            //response & redirect to list
+            if (res.IsSuccessStatusCode)
+            {
+                NavHelper.NavigateTo("/Uoms");
+            }
+            else
+            {
+                validationMsg = "Unable to submit Form";
+            }
+
+            return;
+        }
+        else
+        {
+            //invalid form
+            //show error messages
+            validationMsg = "Invalid Form";
+
+        }
+    }
+
+}
+

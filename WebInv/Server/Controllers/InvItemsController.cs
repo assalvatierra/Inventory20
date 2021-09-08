@@ -51,7 +51,7 @@ namespace WebInv.Server.Controllers
                 return NotFound();
             }
 
-            return invItem;
+            return invItem; 
         }
 
         // PUT: api/InvItems/5

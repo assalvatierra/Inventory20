@@ -1,0 +1,105 @@
+﻿@page "/Uoms/Edit/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+
+<h3>Edit Uom</h3>
+<p>
+    <div class=""></div>
+    <a href="/Uoms">
+        <span class="oi oi-arrow-left" title="arrow-left" aria-hidden="true"></span>
+        Back to List
+    </a>
+</p>
+<hr />
+<div class="col-md-5">
+    <EditForm Model="@invUom" OnSubmit=@OnSubmit>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="mb-3">
+            <p class="text-warning"> @validationMsg </p>
+        </div>
+        <div class="mb-3" hidden>
+            <label> Id </label>
+            <InputNumber class="form-control" @bind-Value=invUom.Id id="Id" />
+        </div>
+
+        <div class="mb-3">
+            <label> Uom </label>
+            <InputText class="form-control" @bind-Value=invUom.uom id="Uom" ParsingErrorMessage="The field has an incorrect value." />
+        </div>
+
+        <div class="mb-3">
+            <input type="submit" value="Save Changes" class="btn btn-primary" />
+        </div>
+    </EditForm>
+</div>
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    InvUom invUom = new InvUom();
+    string validationMsg;
+
+
+    //On page Initialize
+    protected override async Task OnInitializedAsync()
+    {
+        //Initialize List Data here
+        await GetInitFormData();
+        return;
+    }
+
+
+    //On Submit Form Validation
+    private async Task OnSubmit(EditContext editContext)
+    {
+
+        //Form Validation
+        bool formIsValid = editContext.Validate();
+
+        validationMsg = formIsValid
+              ? "Success - form was valid"
+              : "Failure - form was invalid";
+
+        if (formIsValid)
+        {
+            await SubmitForm();
+        }
+        else
+        {
+            //invalid form
+            //show error messages
+
+        }
+    }
+
+    //Post data to server
+    private async Task SubmitForm()
+    {
+
+        //Post data to server
+        var res = await Http.PutAsJsonAsync($"api/InvUoms/{id}", invUom);
+
+        //response & redirect to list
+        if (res.IsSuccessStatusCode)
+        {
+            NavHelper.NavigateTo("/Uoms");
+        }
+        else
+        {
+            validationMsg = "Invalid Form";
+        }
+
+        return;
+    }
+
+    //Get Form Data
+    private async Task GetInitFormData()
+    {
+        invUom = await Http.GetFromJsonAsync<InvUom>($"api/InvUoms/{id}");
+    }
+
+}
+

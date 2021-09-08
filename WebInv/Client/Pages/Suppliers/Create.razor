@@ -1,0 +1,97 @@
+﻿@page "/Suppliers/Create"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+
+<h3>Create Supplier</h3>
+<p>
+    <div class=""></div>
+    <a href="/Suppliers">
+        <span class="oi oi-arrow-left" title="arrow-left" aria-hidden="true"></span>
+        Back to List
+    </a>
+</p>
+<hr />
+<div class="col-md-5">
+    <EditForm Model="@invSupplier" OnSubmit=@OnSubmit>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <p class="text-warning"> @validationMsg </p>
+        </div>
+        <div class="mb-3" hidden>
+            <label> Id </label>
+            <InputNumber class="form-control" @bind-Value=invSupplier.Id id="Id" />
+        </div>
+
+        <div class="mb-3">
+            <label> Name </label>
+            <InputText class="form-control" @bind-Value=invSupplier.Name id="Description" ParsingErrorMessage="The field has an incorrect value." />
+        </div>
+
+        <div class="mb-3">
+            <label> Remarks </label>
+            <InputText class="form-control" @bind-Value=invSupplier.Remarks id="Remarks" />
+        </div>
+
+        <div class="mb-3">
+            <input type="submit" value="Submit" class="btn btn-primary" />
+        </div>
+    </EditForm>
+</div>
+
+
+@code {
+    InvSupplier invSupplier = new InvSupplier();
+    string validationMsg;
+
+
+    //On page Initialize
+    protected override void OnInitialized()
+    {
+        //Initialize List Data here
+        return;
+    }
+
+
+    //On Submit Form
+    private async Task OnSubmit(EditContext editContext)
+    {
+
+        //Form Validation
+        bool formIsValid = editContext.Validate();
+
+        validationMsg = formIsValid
+                          ? "Success - form was valid"
+                          : "Failure - form was invalid";
+
+        if (formIsValid)
+        {
+            //Post data to server
+            var res = await Http.PostAsJsonAsync("api/InvSuppliers", invSupplier);
+
+            //response & redirect to list
+            if (res.IsSuccessStatusCode)
+            {
+                NavHelper.NavigateTo("/Suppliers");
+            }
+            else
+            {
+                validationMsg = "Invalid Form";
+            }
+
+            return;
+        }
+        else
+        {
+            //invalid form
+            //show error messages
+
+        }
+    }
+
+
+
+
+}
+

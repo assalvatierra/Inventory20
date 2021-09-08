@@ -1,0 +1,54 @@
+﻿@page "/Classifications/Details/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+<h3>Details</h3>
+
+<p>
+    <div class=""></div>
+    <a href="/Classifications">
+        <span class="oi oi-arrow-left" title="arrow-left" aria-hidden="true"></span>
+        Back to List
+    </a>
+</p>
+
+@if (invClassification == null)
+{
+    <div class="spinner-border" role="status">  </div>
+    <span class="visually-hidden"> Loading... </span>
+}
+else
+{
+
+    <div>   
+        <div>
+            <p>
+                <label class="text-muted">Id : @invClassification.Id</label>
+            </p>
+        </div>
+        <div>
+            <p>
+                <label class="text-muted">Description</label>
+                <h4> @invClassification.Classification </h4>
+            </p>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    private InvClassification invClassification = new InvClassification();
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            invClassification = await Http.GetFromJsonAsync<InvClassification>("api/InvClassifications/" +  this.id);
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+}

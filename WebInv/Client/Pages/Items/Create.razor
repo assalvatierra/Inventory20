@@ -1,12 +1,12 @@
-﻿@page "/Items/Edit/{id:int}"
+﻿@page "/Items/Create"
 @inject HttpClient Http
 @inject NavigationManager NavHelper
 
-<h3>Edit Item</h3>
+<h3>Create Item</h3>
 <p>
     <div class=""></div>
     <a href="/Items">
-        <i class="bi bi-arrow-left-circle"></i>
+        <span class="oi oi-arrow-left" title="arrow-left" aria-hidden="true"></span>
         Back to List
     </a>
 </p>
@@ -15,56 +15,57 @@
     <EditForm Model="@invItem" OnSubmit=@ValidFormSubmitted>
         <DataAnnotationsValidator />
         <ValidationSummary />
-
+        <div class="mb-3">
+            <p class="text-warning"> @ValidationMsg  </p>
+        </div>
         <div class="mb-3" hidden>
             <label> Id </label>
             <InputNumber class="form-control" @bind-Value=invItem.Id id="Id" />
         </div>
+
         <div class="mb-3">
             <label> Description </label>
-           <InputText class="form-control" @bind-Value=invItem.Description id="Description" />
+            <InputText class="form-control" @bind-Value=invItem.Description id="Description" />
         </div>
 
         <div class="mb-3">
-            <label> Remarks </label>
-             <InputText class="form-control" @bind-Value=invItem.Remarks id="Remarks" />
+            <label > Remarks </label>
+            <InputText class="form-control" @bind-Value=invItem.Remarks id="Remarks" />
         </div>
 
         <div class="mb-3">
             <label> Unit </label>
-                <InputSelect class="form-control" @bind-Value=invItem.InvUomId id="Uom">
-                    @if (invUom != null)
+            <InputSelect class="form-control" @bind-Value=invItem.InvUomId id="Uom">
+                @if (invUom != null)
+                {
+                    @foreach (var unitOfMeasure in invUom)
                     {
-                        @foreach (var unitOfMeasure in invUom)
-                        {
-                            <option value=@unitOfMeasure.Id >@unitOfMeasure.uom</option>
-                        }
+                        <option value=@unitOfMeasure.Id >@unitOfMeasure.uom</option>
                     }
-                    else
-                    {
-                        <option id="0">N/A</option>
-                    }
+                }
+                else
+                {
+                    <option id="0">N/A</option>
+                }
 
-                </InputSelect>
+            </InputSelect>
         </div>
         <div class="mb-3">
-            <input type="submit" value="Save Changes" class="btn btn-primary" />
+            <input type="submit" value="Submit" class="btn btn-primary" />
         </div>
     </EditForm>
 </div>
 
 
 @code {
-    [Parameter]
-    public int id { get; set; }
-
     InvItem invItem = new InvItem();
     InvUom[] invUom ;
+
+    string ValidationMsg;
 
     //On page Initialize
     protected override async Task OnInitializedAsync()
     {
-        await GetInvItem();
         invUom = await GetInvUom();
     }
 
@@ -72,12 +73,16 @@
     private async Task ValidFormSubmitted(EditContext editContext)
     {
         //Post data to server
-        var res = await Http.PutAsJsonAsync($"api/InvItems/{id}", invItem);
+        var res = await Http.PostAsJsonAsync("api/InvItems", invItem);
 
         //response & redirect to list
         if (res.IsSuccessStatusCode)
         {
             NavHelper.NavigateTo("/Items");
+        }
+        else
+        {
+            ValidationMsg = "Unable to Create new Item";
         }
 
         return;
@@ -87,15 +92,8 @@
     private async Task<InvUom[]> GetInvUom()
     {
         var uoms = await Http.GetFromJsonAsync<InvUom[]>("api/InvUoms");
-        Console.WriteLine(uoms);
+
         return uoms;
-    }
-
-    //Get item details
-    private async Task GetInvItem()
-    {
-        invItem = await Http.GetFromJsonAsync<InvItem>($"api/InvItems/{id}");
-
     }
 
 

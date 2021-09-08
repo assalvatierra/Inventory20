@@ -1,0 +1,80 @@
+﻿@page "/Items"
+@attribute [Authorize]
+@inject HttpClient Http
+
+<h3>Items</h3>
+<p>
+    <a href="/Items/Create" class="btn btn-primary"> Add Item </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Unit
+            </th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (invItems == null)
+        {
+            <tr>
+                <td colspan="3">
+                    <div class="spinner-border" role="status">
+                    </div>
+                    <span class="visually-hidden">Loading...</span>
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var item in invItems)
+            {
+                <tr @key="item.Id">
+                    <td>
+                        @item.Id
+                    </td>
+                    <td>
+                        @item.Description
+                    </td>
+                    <td>
+                        @item.InvUom.uom
+                    </td>
+                    <td>
+                        <a href="/Items/Details/@item.Id" class="btn btn-light btn-sm"> Details </a>
+                        <a href="/Items/Edit/@item.Id" class="btn btn-light btn-sm"> Edit </a>
+                        <a href="/Items/Delete/@item.Id" class="btn btn-light btn-sm"> Delete </a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+@code {
+
+    private InvItem[] invItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            //get item details
+            invItems = await Http.GetFromJsonAsync<InvItem[]>("api/InvItems");
+
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+
+    }
+}

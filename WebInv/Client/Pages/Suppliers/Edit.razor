@@ -1,0 +1,110 @@
+﻿@page "/Suppliers/Edit/{id:int}"
+@inject HttpClient Http
+@inject NavigationManager NavHelper
+
+<h3>Edit Supplier</h3>
+<p>
+    <div class=""></div>
+    <a href="/Suppliers">
+        <span class="oi oi-arrow-left" title="arrow-left" aria-hidden="true"></span>
+        Back to List
+    </a>
+</p>
+<hr />
+<div class="col-md-5">
+    <EditForm Model="@invSupplier" OnSubmit=@OnSubmit>
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="mb-3">
+            <p class="text-warning"> @LastSubmitResult </p>
+        </div>
+        <div class="mb-3" hidden>
+            <label> Id </label>
+            <InputNumber class="form-control" @bind-Value=invSupplier.Id id="Id" />
+        </div>
+
+        <div class="mb-3">
+            <label> Name </label>
+            <InputText class="form-control" @bind-Value=invSupplier.Name id="Name" ParsingErrorMessage="The field has an incorrect value." />
+        </div>
+
+        <div class="mb-3">
+            <label> Remarks </label>
+            <InputText class="form-control" @bind-Value=invSupplier.Remarks id="Remarks" />
+        </div>
+
+        <div class="mb-3">
+            <input type="submit" value="Save Changes" class="btn btn-primary" />
+        </div>
+    </EditForm>
+</div>
+
+
+@code {
+    [Parameter]
+    public int id { get; set; }
+
+    InvSupplier invSupplier = new InvSupplier();
+    string LastSubmitResult;
+
+
+    //On page Initialize
+    protected override async Task OnInitializedAsync()
+    {
+        //Initialize List Data here
+        await GetInitFormData();
+        return;
+    }
+
+
+    //On Submit Form Validation
+    private async Task OnSubmit(EditContext editContext)
+    {
+
+        //Form Validation
+        bool formIsValid = editContext.Validate();
+
+        LastSubmitResult = formIsValid
+          ? "Success - form was valid"
+          : "Failure - form was invalid";
+
+        if (formIsValid)
+        {
+            await SubmitForm();
+        }
+        else
+        {
+            //invalid form
+            //show error messages
+
+        }
+    }
+
+    //Post data to server
+    private async Task SubmitForm()
+    {
+
+        //Post data to server
+        var res = await Http.PutAsJsonAsync($"api/InvSuppliers/{id}", invSupplier);
+
+        //response & redirect to list
+        if (res.IsSuccessStatusCode)
+        {
+            NavHelper.NavigateTo("/Suppliers");
+        }
+        else
+        {
+            LastSubmitResult = "Invalid Form";
+        }
+
+        return;
+    }
+
+    //Get Form Data
+    private async Task GetInitFormData()
+    {
+        invSupplier = await Http.GetFromJsonAsync<InvSupplier>($"api/InvSuppliers/{id}");
+    }
+
+}
+
